@@ -114,7 +114,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 		if id:
 			self.obj = get_object_or_404(self.model, id=id, owner=request.user)
 
-		return super(ContentCreateUpdateView, self).disptch(request, module_id, model_name, id)
+		return super(ContentCreateUpdateView, self).dispatch(request, module_id, model_name, id)
 
 	def get(self, request, module_id, model_name, id=None):
 		form = self.get_form(self.model, instance=self.obj)
@@ -130,8 +130,18 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 			obj.save()
 
 			if not id:
-				Contenbts.objects.create(module=self.module, item=obj)
+				Content.objects.create(module=self.module, item=obj)
 
-			return redirect('module_content_list', seld.module.id)
+			return redirect('module_content_list', self.module.id)
 
-		retuurn self.render_to_response({'form':form, 'object': self.obj})
+		return self.render_to_response({'form':form, 'object': self.obj})
+
+
+
+class ContentDeleteView(View):
+	def post(self, request, id):
+		content = get_object_or_404(Content, id=id, module__course__owner=request.user)
+		module = content.module
+		content.item.delete()
+		content.delete()
+		return redirect('module_content_list', module_id)
