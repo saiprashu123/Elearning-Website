@@ -3,12 +3,12 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>{% block title %}Tanmay Vijay - Elearning Website{% endblock %}</title>
-  <link  type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
+  <title>{% block title %}Educa{% endblock %}</title>
+  <link href="{% static "css/style.css" %}" rel="stylesheet">
 </head>
 <body>
   <div id="header">
-    <a href="/" class="logo">E-Learning</a>
+    <a href="/" class="logo">Educa</a>
     <ul class="menu">
       {% if request.user.is_authenticated %}
         <li><a href="{% url "logout" %}">Sign out</a></li>
